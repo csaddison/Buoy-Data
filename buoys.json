@@ -1,0 +1,27 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+            "type": "Point",
+            "coordinates": [120.783, 34.454]
+            },
+            "properties": {
+            "name": "Harvest",
+            "id": "46059"
+            }
+        },
+        {
+            "type": "Feature",
+            "geometry": {
+            "type": "Point",
+            "coordinates": [129.951 , 38.094]
+            },
+            "properties": {
+            "name": "West California",
+            "id": "46218"
+            }
+        }
+    ]
+}
