@@ -16,6 +16,21 @@ var map = new mapboxgl.Map({
     zoom: 5
 });
 
+// Loading JSON file
+var json = (function() {
+    var json = null;
+    $.ajax({
+      'async': false,
+      'global': false,
+      'url': "/buoys.json",
+      'dataType': "json",
+      'success': function(data) {
+        json = data;
+      }
+    });
+    return json;
+  })();
+
 // Adding buoy points to map
 var marker = new mapboxgl.Marker()
 .setLngLat([-125, 37])
@@ -24,47 +39,39 @@ var marker = new mapboxgl.Marker()
 map.on('load', function() {
     map.addSource('points', {
     'type': 'geojson',
-    'data': {
-            "type": "FeatureCollection",
-            "features": [
-                {
-                    "type": "Feature",
-                    "geometry": {
-                    "type": "Point",
-                    "coordinates": [120.783, 34.454]
-                    },
-                    "properties": {
-                    "name": "Harvest",
-                    "id": "46059"
-                    }
-                },
-                {
-                    "type": "Feature",
-                    "geometry": {
-                    "type": "Point",
-                    "coordinates": [129.951 , 38.094]
-                    },
-                    "properties": {
-                    "name": "West California",
-                    "id": "46218"
-                    }
-                }
-            ]}
+    'data': json
     });
+    console.log(json)
 
-    map.addLayer({
-        'id': 'points',
-        'type': 'symbol',
-        'source': 'points',
-        'layout': {
-            'text-field': ['get', 'name'],
-            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-            'text-offset': [0, 0.6],
-            'text-anchor': 'top'
-        }
-    });
+    // map.addLayer({
+    //     'id': 'points',
+    //     'type': 'symbol',
+    //     'source': 'points',
+    //     'layout': {
+    //         'icon-image': 'marker.png',
+    //         'text-field': ['get', 'name'],
+    //         'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+    //         'text-offset': [0, 0.6],
+    //         'text-anchor': 'top'
+    //     }
+    // });
     
+    // add markers to map
+    json.features.forEach(function(marker) {
+
+        // create a HTML element for each feature
+        var el = document.createElement('div');
+        el.className = 'marker';
+    
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
+
+  });
 });
+
+
 
 
 
